@@ -17,7 +17,7 @@ fun PokemonEntryDto.toDomain(): Pokemon {
 
     return Pokemon(
         id = pokemonId,
-        name = name.replaceFirstChar { it.uppercase() }, // Ponemos la primera letra en mayúscula
+        name = name.replaceFirstChar { it.uppercase() },
         imageUrl = imageUrl
     )
 }
