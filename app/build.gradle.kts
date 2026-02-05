@@ -57,6 +57,11 @@ dependencies {
     ksp(libs.hilt.compiler)
     implementation(libs.hilt.navigation.compose)
 
+    // Room
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+
     // Retrofit & Networking
     implementation(libs.retrofit)
     implementation(libs.retrofit.gson)
@@ -68,6 +73,7 @@ dependencies {
     // Paging
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.common)
 
 
     testImplementation(libs.junit)
