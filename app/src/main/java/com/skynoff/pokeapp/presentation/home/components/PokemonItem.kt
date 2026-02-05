@@ -1,5 +1,6 @@
 package com.skynoff.pokeapp.presentation.home.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -18,13 +19,15 @@ import com.skynoff.pokeapp.domain.model.Pokemon
 
 @Composable
 fun PokemonItem(
+    onClick: () -> Unit,
     pokemon: Pokemon,
     modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable { onClick() },
         shape = RoundedCornerShape(16.dp),
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {

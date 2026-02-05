@@ -22,6 +22,7 @@ import com.skynoff.pokeapp.presentation.home.components.PokemonItem
 
 @Composable
 fun HomeScreen(
+    onItemClick: (String) -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val pokemonItems = viewModel.pokemonList.collectAsLazyPagingItems()
@@ -34,7 +35,12 @@ fun HomeScreen(
         ) {
             items(pokemonItems.itemCount) { index ->
                 val pokemon = pokemonItems[index]
-                pokemon?.let { PokemonItem(pokemon = it) }
+                if (pokemon != null) {
+                    PokemonItem(
+                        pokemon = pokemon,
+                        onClick = { onItemClick(pokemon.name) }
+                    )
+                }
             }
             if (pokemonItems.loadState.append is LoadState.Loading) {
                 item {

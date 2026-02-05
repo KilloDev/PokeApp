@@ -6,5 +6,11 @@ data class Pokemon(
     val imageUrl: String,
     val types: List<String> = emptyList(),
     val height: Int = 0,
-    val weight: Int = 0
+    val weight: Int = 0,
+    val stats: List<PokemonStat> = emptyList()
+)
+
+data class PokemonStat(
+    val name: String,
+    val value: Int
 )

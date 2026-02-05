@@ -1,7 +1,9 @@
 package com.skynoff.pokeapp.data.mapper
 
+import com.skynoff.pokeapp.data.remote.dto.PokemonDetailDto
 import com.skynoff.pokeapp.data.remote.dto.PokemonEntryDto
 import com.skynoff.pokeapp.domain.model.Pokemon
+import com.skynoff.pokeapp.domain.model.PokemonStat
 
 
 fun PokemonEntryDto.toDomain(): Pokemon {
@@ -19,5 +21,22 @@ fun PokemonEntryDto.toDomain(): Pokemon {
         id = pokemonId,
         name = name.replaceFirstChar { it.uppercase() },
         imageUrl = imageUrl
+    )
+}
+
+fun PokemonDetailDto.toDomain(): Pokemon {
+    return Pokemon(
+        id = id,
+        name = name.replaceFirstChar { it.uppercase() },
+        imageUrl = sprites.other.officialArtwork.frontDefault,
+        height = height,
+        weight = weight,
+        types = types.map { it.type.name },
+        stats = stats.map {
+            PokemonStat(
+                name = it.stat.name,
+                value = it.baseStat
+            )
+        }
     )
 }
