@@ -24,7 +24,6 @@ class AuthManager(private val context: Context) {
     }
 
     val isLoggedIn: Flow<Boolean> = context.dataStore.data.map { it[IS_LOGGED_IN] ?: false }
-    val userName: Flow<String> = context.dataStore.data.map { it[USER_NAME] ?: "" }
 
     suspend fun logout() {
         context.dataStore.edit { prefs ->
