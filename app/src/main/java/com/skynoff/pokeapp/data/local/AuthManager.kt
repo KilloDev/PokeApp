@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
 class AuthManager(private val context: Context) {
@@ -20,6 +21,15 @@ class AuthManager(private val context: Context) {
         context.dataStore.edit { prefs ->
             prefs[USER_NAME] = name
             prefs[IS_LOGGED_IN] = true
+        }
+    }
+
+    suspend fun validateLogin(user: String, password: String): Flow<Boolean> {
+        return if (user == "ashketchum" && password == "123456"){
+            saveLogin(user)
+            flowOf(true)
+        } else {
+             flowOf(false)
         }
     }
 

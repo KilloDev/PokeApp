@@ -5,6 +5,8 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.skynoff.pokeapp.data.local.AuthManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -12,12 +14,21 @@ import javax.inject.Inject
 class LoginViewModel @Inject constructor(
     private val authManager: AuthManager
 ) : ViewModel() {
+    private val _loginState = MutableStateFlow<LoginState>(LoginState())
+    val loginState = _loginState.asStateFlow()
 
-    val isLoggedIn = authManager.isLoggedIn.asLiveData()
 
-    fun login(user: String) {
+    fun login(user: String, password: String) {
         viewModelScope.launch {
-            authManager.saveLogin(user)
+            authManager.validateLogin(user, password)
+                .asLiveData()
+                .observeForever { isValidLogin ->
+                    _loginState.value = LoginState(isValidLogin)
+                }
         }
     }
 }
+
+data class LoginState(
+    val isValidLogin: Boolean = false
+)
