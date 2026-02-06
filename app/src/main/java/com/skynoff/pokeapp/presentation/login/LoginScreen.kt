@@ -10,6 +10,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -32,6 +35,14 @@ fun LoginScreen(
     var user by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     val uiState = viewModel.loginState.collectAsState()
+    val snackbarHostState = remember { SnackbarHostState() }
+
+    LaunchedEffect(uiState.value.errorMessage) {
+        uiState.value.errorMessage?.let {
+            snackbarHostState.showSnackbar(message = it)
+            viewModel.clearError()
+        }
+    }
 
     LaunchedEffect(uiState.value.isValidLogin) {
         if (uiState.value.isValidLogin) {
@@ -40,46 +51,51 @@ fun LoginScreen(
     }
 
 
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        Text(text = "PokeApp Login", style = MaterialTheme.typography.headlineLarge)
-
-        Spacer(modifier = Modifier.height(32.dp))
-
-        OutlinedTextField(
-            value = user,
-            onValueChange = { user = it },
-            label = { Text("Usuario") },
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Spacer(modifier = Modifier.height(16.dp))
-
-        OutlinedTextField(
-            value = password,
-            onValueChange = { password = it },
-            label = { Text("Contraseña") },
-            visualTransformation = PasswordVisualTransformation(),
-            modifier = Modifier.fillMaxWidth()
-        )
-
-        Button(
-            onClick = {
-                if (user.isNotBlank() && password.isNotBlank()) {
-                    viewModel.login(user, password)
-
-                }
-            },
+    Scaffold(
+        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+    ) { paddingValues ->
+        Column(
             modifier = Modifier
-                .padding(top = 24.dp)
-                .fillMaxWidth()
+                .fillMaxSize()
+                .padding(paddingValues)
+                .padding(24.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text("Entrar")
+            Text(text = "PokeApp Login", style = MaterialTheme.typography.headlineLarge)
+
+            Spacer(modifier = Modifier.height(32.dp))
+
+            OutlinedTextField(
+                value = user,
+                onValueChange = { user = it },
+                label = { Text("Usuario") },
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
+                value = password,
+                onValueChange = { password = it },
+                label = { Text("Contraseña") },
+                visualTransformation = PasswordVisualTransformation(),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            Button(
+                onClick = {
+                    if (user.isNotBlank() && password.isNotBlank()) {
+                        viewModel.login(user, password)
+
+                    }
+                },
+                modifier = Modifier
+                    .padding(top = 24.dp)
+                    .fillMaxWidth()
+            ) {
+                Text("Entrar")
+            }
         }
     }
 }

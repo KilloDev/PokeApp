@@ -26,7 +26,6 @@ class AuthManager(private val context: Context) {
 
     suspend fun validateLogin(user: String, password: String): Flow<Boolean> {
         return if (user == "ashketchum" && password == "123456"){
-            saveLogin(user)
             flowOf(true)
         } else {
              flowOf(false)
