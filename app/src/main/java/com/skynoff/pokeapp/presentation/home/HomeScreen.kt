@@ -12,6 +12,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -21,6 +22,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -42,13 +44,31 @@ fun HomeScreen(
 ) {
     val pokemonItems = viewModel.pokemonList.collectAsLazyPagingItems()
     val query by viewModel.searchQuery.collectAsState()
+    val showLogoutDialog by viewModel.showLogoutDialog.collectAsState()
 
+    if (showLogoutDialog) {
+        AlertDialog(
+            onDismissRequest = { viewModel.onDismissLogout() },
+            title = { Text(text = "Cerrar Sesión") },
+            text = { Text(text = "¿Estás seguro de que deseas salir de tu cuenta?") },
+            confirmButton = {
+                TextButton(onClick = { viewModel.onConfirmLogout() }) {
+                    Text(text = "Confirmar", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { viewModel.onDismissLogout() }) {
+                    Text(text = "Cancelar")
+                }
+            }
+        )
+    }
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("PokeApp") },
                 actions = {
-                    IconButton(onClick = { viewModel.logout() }) {
+                    IconButton(onClick = { viewModel.onLogoutClick() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "Logout",

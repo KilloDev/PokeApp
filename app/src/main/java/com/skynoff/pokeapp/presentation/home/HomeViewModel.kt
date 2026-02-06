@@ -21,8 +21,27 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val authManager: AuthManager,
-    private val getPokemonListUseCase: GetPokemonListUseCase
-) : ViewModel() {
+    private val getPokemonListUseCase: GetPokemonListUseCase,
+
+    ) : ViewModel() {
+    private val _showLogoutDialog = MutableStateFlow(false)
+    val showLogoutDialog = _showLogoutDialog.asStateFlow()
+
+
+    fun onLogoutClick() {
+        _showLogoutDialog.value = true
+    }
+
+    fun onDismissLogout() {
+        _showLogoutDialog.value = false
+    }
+
+    fun onConfirmLogout() {
+        _showLogoutDialog.value = false
+        viewModelScope.launch {
+            authManager.logout()
+        }
+    }
 
     fun logout() {
         viewModelScope.launch {
