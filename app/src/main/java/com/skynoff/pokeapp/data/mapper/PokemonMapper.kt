@@ -6,6 +6,10 @@ import com.skynoff.pokeapp.data.remote.dto.PokemonEntryDto
 import com.skynoff.pokeapp.domain.model.Pokemon
 import com.skynoff.pokeapp.domain.model.PokemonStat
 
+/**
+ * Traductores de Datos: Estas funciones convierten la información que
+ * viene de internet en objetos que nuestra aplicación entiende y puede dibujar.
+ */
 
 fun PokemonEntryDto.toDomain(): Pokemon {
     val number = if (url.endsWith("/")) {

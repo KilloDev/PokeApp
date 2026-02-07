@@ -20,6 +20,11 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * En esta clase controlamos la búsqueda de Pokémon,
+ * el estado de los favoritos y la lógica para cerrar la sesión.
+ */
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val authManager: AuthManager,

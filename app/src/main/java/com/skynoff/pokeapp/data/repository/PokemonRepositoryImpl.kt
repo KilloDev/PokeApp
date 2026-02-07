@@ -14,6 +14,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
+/**
+ * Implementación del Repositorio de Pokémon.
+ * * La Función principal de esta clase es abstraer el origen de los datos
+ * para que el resto de la aplicación no tenga que preocuparse de dónde vienen.
+ */
+
 class PokemonRepositoryImpl @Inject constructor(
     private val api: PokeApi,
     private val dao: PokemonDao

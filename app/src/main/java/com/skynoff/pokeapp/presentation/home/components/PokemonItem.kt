@@ -24,6 +24,11 @@ import coil.compose.AsyncImage
 import com.skynoff.pokeapp.domain.model.Pokemon
 import com.skynoff.pokeapp.ui.theme.PokedexRed
 
+/**
+ * Es la card individual de cada Pokémon.
+ * Muestra su foto, nombre, número y boton de favorito.
+ */
+
 @Composable
 fun PokemonItem(
     onClick: () -> Unit,

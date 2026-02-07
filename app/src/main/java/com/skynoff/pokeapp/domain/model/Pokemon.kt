@@ -1,5 +1,12 @@
 package com.skynoff.pokeapp.domain.model
 
+/**
+ * * Esta clase es el "Modelo de Dominio", es la estructura
+ * limpia que utiliza la interfaz de usuario (UI) para mostrar la información,
+ * independientemente de cómo vengan los datos desde internet.
+ */
+
+
 data class Pokemon(
     val id: Int,
     val name: String,

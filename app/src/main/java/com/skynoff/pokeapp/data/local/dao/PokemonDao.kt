@@ -8,6 +8,11 @@ import androidx.room.Query
 import com.skynoff.pokeapp.data.local.entities.PokemonEntity
 import kotlinx.coroutines.flow.Flow
 
+/**
+ * El DAO define las acciones que podemos hacer con
+ * nuestros datos, en este caso pokemon (guardar, borrar y consultar).
+ */
+
 @Dao
 interface PokemonDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)

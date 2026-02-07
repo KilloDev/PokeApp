@@ -9,6 +9,12 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 
+
+/**
+ * En esta clase hacemos la logica para guardar si el usuario ya inició sesión
+ * para que no tenga que loguearse cada vez que abre la app.
+ */
+
 class AuthManager(private val context: Context) {
     private val Context.dataStore by preferencesDataStore(name = "auth_prefs")
 

@@ -5,6 +5,11 @@ import androidx.paging.PagingState
 import com.skynoff.pokeapp.data.mapper.toDomain
 import com.skynoff.pokeapp.domain.model.Pokemon
 
+/**
+ * Paginación: Para no saturar el celular, la app carga los Pokémon poco a poco
+ * (de 20 en 20) a medida que el usuario hace scroll hacia abajo.
+ */
+
 class PokemonPagingSource(
     private val api: PokeApi
 ) : PagingSource<Int, Pokemon>() {
