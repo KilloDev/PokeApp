@@ -33,13 +33,6 @@ class PokemonRepositoryImpl @Inject constructor(
         } catch (e: Exception) { Result.failure(e) }
     }
 
-
-    override fun getFavorites(): Flow<List<Pokemon>> {
-        return dao.getAllFavorites().map { entities ->
-            entities.map { it.toDomain() }
-        }
-    }
-
     override fun isFavorite(id: Int): Flow<Boolean> {
         return dao.isFavorite(id)
     }
@@ -49,6 +42,12 @@ class PokemonRepositoryImpl @Inject constructor(
             dao.deleteFavorite(pokemon.toEntity())
         } else {
             dao.insertFavorite(pokemon.toEntity())
+        }
+    }
+
+    override fun getFavorites(): Flow<List<Pokemon>> {
+        return dao.getAllFavorites().map { entities ->
+            entities.map { it.toDomain() }
         }
     }
 }

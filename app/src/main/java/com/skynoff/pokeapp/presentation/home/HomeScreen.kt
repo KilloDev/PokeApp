@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.AlertDialog
@@ -51,6 +52,7 @@ import com.skynoff.pokeapp.ui.theme.PokedexRed
 @Composable
 fun HomeScreen(
     onItemClick: (String) -> Unit,
+    onNavigateToFavorites: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val pokemonItems = viewModel.pokemonList.collectAsLazyPagingItems()
@@ -91,6 +93,13 @@ fun HomeScreen(
                     )
                 },
                 actions = {
+                    IconButton(onClick = { onNavigateToFavorites() }) {
+                        Icon(
+                            imageVector = Icons.Default.Favorite,
+                            contentDescription = "Ver Favoritos",
+                            tint = PokedexRed
+                        )
+                    }
                     IconButton(onClick = { viewModel.onLogoutClick() }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ExitToApp,
