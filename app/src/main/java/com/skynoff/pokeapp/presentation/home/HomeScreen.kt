@@ -57,6 +57,8 @@ fun HomeScreen(
     val query by viewModel.searchQuery.collectAsState()
     val showLogoutDialog by viewModel.showLogoutDialog.collectAsState()
 
+    val favorites by viewModel.favoriteIds.collectAsState()
+
     if (showLogoutDialog) {
         AlertDialog(
             onDismissRequest = { viewModel.onDismissLogout() },
@@ -139,8 +141,11 @@ fun HomeScreen(
                     items(pokemonItems.itemCount) { index ->
                         val pokemon = pokemonItems[index]
                         if (pokemon != null) {
+                            val isFav = favorites.contains(pokemon.id)
                             PokemonItem(
                                 pokemon = pokemon,
+                                isFavorite = isFav,
+                                onFavoriteClick = { viewModel.toggleFavorite(pokemon) },
                                 onClick = { onItemClick(pokemon.name) }
                             )
                         }

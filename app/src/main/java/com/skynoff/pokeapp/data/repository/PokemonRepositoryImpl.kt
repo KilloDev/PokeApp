@@ -3,27 +3,26 @@ package com.skynoff.pokeapp.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.skynoff.pokeapp.data.local.dao.PokemonDao
 import com.skynoff.pokeapp.data.mapper.toDomain
+import com.skynoff.pokeapp.data.mapper.toEntity
 import com.skynoff.pokeapp.data.remote.PokeApi
 import com.skynoff.pokeapp.data.remote.PokemonPagingSource
 import com.skynoff.pokeapp.domain.model.Pokemon
 import com.skynoff.pokeapp.domain.repository.PokemonRepository
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
 class PokemonRepositoryImpl @Inject constructor(
-    private val api: PokeApi
+    private val api: PokeApi,
+    private val dao: PokemonDao
 ) : PokemonRepository {
 
     override fun getPokemonList(): Flow<PagingData<Pokemon>> {
         return Pager(
-            config = PagingConfig(
-                pageSize = 20,
-                enablePlaceholders = false
-            ),
-            pagingSourceFactory = {
-                PokemonPagingSource(api)
-            }
+            config = PagingConfig(pageSize = 20, enablePlaceholders = false),
+            pagingSourceFactory = { PokemonPagingSource(api) }
         ).flow
     }
 
@@ -31,8 +30,25 @@ class PokemonRepositoryImpl @Inject constructor(
         return try {
             val response = api.getPokemonDetail(name)
             Result.success(response.toDomain())
-        } catch (e: Exception) {
-            Result.failure(e)
+        } catch (e: Exception) { Result.failure(e) }
+    }
+
+
+    override fun getFavorites(): Flow<List<Pokemon>> {
+        return dao.getAllFavorites().map { entities ->
+            entities.map { it.toDomain() }
+        }
+    }
+
+    override fun isFavorite(id: Int): Flow<Boolean> {
+        return dao.isFavorite(id)
+    }
+
+    override suspend fun toggleFavorite(pokemon: Pokemon, isFavorite: Boolean) {
+        if (isFavorite) {
+            dao.deleteFavorite(pokemon.toEntity())
+        } else {
+            dao.insertFavorite(pokemon.toEntity())
         }
     }
 }

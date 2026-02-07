@@ -1,5 +1,6 @@
 package com.skynoff.pokeapp.data.mapper
 
+import com.skynoff.pokeapp.data.local.entities.PokemonEntity
 import com.skynoff.pokeapp.data.remote.dto.PokemonDetailDto
 import com.skynoff.pokeapp.data.remote.dto.PokemonEntryDto
 import com.skynoff.pokeapp.domain.model.Pokemon
@@ -38,5 +39,21 @@ fun PokemonDetailDto.toDomain(): Pokemon {
                 value = it.baseStat
             )
         }
+    )
+}
+
+fun Pokemon.toEntity(): PokemonEntity {
+    return PokemonEntity(
+        id = this.id,
+        name = this.name,
+        imageUrl = this.imageUrl
+    )
+}
+
+fun PokemonEntity.toDomain(): Pokemon {
+    return Pokemon(
+        id = this.id,
+        name = this.name,
+        imageUrl = this.imageUrl
     )
 }
